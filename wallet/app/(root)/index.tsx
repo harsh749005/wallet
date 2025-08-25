@@ -1,6 +1,6 @@
 import { SignedIn, SignedOut, useUser } from '@clerk/clerk-expo'
-import { Link } from 'expo-router'
-import { Text, View } from 'react-native'
+import { Link, router } from 'expo-router'
+import { Pressable, Text, View } from 'react-native'
 import { SignOutButton } from '@/components/sign-out'
 
 export default function Page() {
@@ -20,6 +20,9 @@ export default function Page() {
           <Text>Sign up</Text>
         </Link>
       </SignedOut>
+      <Pressable onPress={() => { router.push('/(root)/SignUpForm') }}>
+        <Text>Next page</Text>
+      </Pressable>
     </View>
   )
 }
