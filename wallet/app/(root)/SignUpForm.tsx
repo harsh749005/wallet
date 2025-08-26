@@ -11,8 +11,7 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 
-interface SignupFormProps {}
-const SignupForm: React.FC<SignupFormProps> = () => {
+const SignupForm = () => {
   const [email, setEmail] = useState<string>("");
 
   const showToast = (

@@ -1,15 +1,19 @@
-import { SignedIn, SignedOut, useUser } from '@clerk/clerk-expo'
-import { Link, router } from 'expo-router'
-import { Pressable, Text, View } from 'react-native'
-import { SignOutButton } from '@/components/sign-out'
+import { SignedIn, SignedOut, useUser } from "@clerk/clerk-expo";
+import { Link, router } from "expo-router";
+import { Pressable, SafeAreaView, StyleSheet, Text } from "react-native";
+import { SignOutButton } from "@/components/sign-out";
 
 export default function Page() {
-  const { user } = useUser()
+  const { user } = useUser();
 
   return (
-    <View>
+    <SafeAreaView style={styles.container}>
       <SignedIn>
-        <Text>Hello {user?.emailAddresses[0].emailAddress}</Text>
+        <Text style={{ color: "white" }}>
+          Hello {user?.emailAddresses[0].emailAddress}
+        </Text>
+        <Text style={{ color: "white" }}> {user?.username}</Text>
+
         <SignOutButton />
       </SignedIn>
       <SignedOut>
@@ -20,9 +24,21 @@ export default function Page() {
           <Text>Sign up</Text>
         </Link>
       </SignedOut>
-      <Pressable onPress={() => { router.push('/(root)/SignUpForm') }}>
+      <Pressable
+        onPress={() => {
+          router.push("/(root)/SignUpForm");
+        }}
+      >
         <Text>Next page</Text>
       </Pressable>
-    </View>
-  )
+    </SafeAreaView>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#0a0a0a",
+    // justifyContent:"space-between",
+  },
+});

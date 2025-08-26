@@ -19,6 +19,7 @@ export default function SignUpScreen() {
 
   const [emailAddress, setEmailAddress] = React.useState("");
   const [password, setPassword] = React.useState("");
+    const [username, setUsername] = React.useState("");
   const [pendingVerification, setPendingVerification] = React.useState(false);
   const [code, setCode] = React.useState("");
   const [loading, setLoading] = React.useState(false);
@@ -56,6 +57,7 @@ export default function SignUpScreen() {
       await signUp.create({
         emailAddress,
         password,
+        username,
       });
       // Send user an email with verification code
       await signUp.prepareEmailAddressVerification({
@@ -216,6 +218,17 @@ export default function SignUpScreen() {
             <View style={styles.form}>
               <View style={styles.inputContainer}>
                 {/* <Text style={styles.label}>Email</Text> */}
+                                <TextInput
+                  style={styles.input}
+                  placeholder="Username"
+                  placeholderTextColor="#bcbbbc"
+                  value={username}
+                  onChangeText={(username) => setUsername(username)}
+                  keyboardType="default"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  autoComplete="name"
+                />
                 <TextInput
                   style={styles.input}
                   placeholder="Email"
