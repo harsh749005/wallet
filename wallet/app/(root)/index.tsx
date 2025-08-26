@@ -4,6 +4,9 @@ import { SignOutButton } from "@/components/sign-out";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useEffect, useState } from "react";
 import {useTransactions} from '@/hooks/useTransaction';
+import PageLoader from "@/components/PageLoader";
+import { router } from "expo-router";
+import { COLORS } from "@/constants/colors";
 export default function Page() {
   const { user } = useUser();
   const {transactions, summary, isLoading, loadData, deleteTransaction } =  useTransactions(user?.id);
@@ -18,7 +21,7 @@ export default function Page() {
   const toggleVisibility = () => {
     setVisible(!visible);
   };
-
+  if(isLoading) return <PageLoader/>
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -32,6 +35,7 @@ export default function Page() {
       </View>
       <View style={styles.content}>
         <Text style={styles.contentText}>Balance</Text>
+        <Text style={styles.balance} onPress={()=>router.push("/Create")}>Create</Text>
         <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
           <Text style={styles.balance}>{visible ? summary.balance : "$****.**"}</Text>
           <Ionicons name={visible ? "eye" : "eye-off"} size={24} color="white" onPress={toggleVisibility} />
@@ -39,15 +43,15 @@ export default function Page() {
         <View style={{flexDirection: "row", justifyContent: "space-between", marginTop: 16}}>
           <View>
             <Text style={styles.contentSubText}>Income</Text>
-            <Text style={styles.SubBalance}>{visible ? summary.income : "$****.**"}</Text>
+            <Text style={styles.income}>{visible ? summary.income : "$****.**"}</Text>
           </View>
           {/* straight line */}
           <View style={{ flexDirection: "row", marginLeft: 8, flex: 1, height: 50, alignItems: "center", justifyContent: "flex-end", gap: 10 }}>
 
-          <View style={{ width: 2, height: 50, backgroundColor: "#26221f", marginHorizontal: 8 }} />
+          <View style={{ width: 2, height: 50, backgroundColor: COLORS.secondaryBorder, marginHorizontal: 8 }} />
           <View >
             <Text style={styles.contentSubText}>Expenses</Text>
-            <Text style={styles.SubBalance}>{visible ? summary.expenses : "$****.**"}</Text>
+            <Text style={styles.expenses}>{visible ? summary.expenses : "$****.**"}</Text>
           </View>
           </View>
           <View></View>
@@ -60,14 +64,14 @@ export default function Page() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0a0a0a",
+    backgroundColor: COLORS.background,
     paddingHorizontal: 16,
     gap: 12,
     // justifyContent:"space-between",
   },
   header: {
-    backgroundColor: "#1d1916",
-    borderColor: "#26221f",
+    backgroundColor: COLORS.secondaryBgColor,
+    borderColor: COLORS.secondaryBorder,
     borderWidth: 2,
     padding: 12,
     borderRadius: 8,
@@ -83,13 +87,13 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 12,
-    backgroundColor: "#1d1916",
-    borderColor: "#26221f",
+    backgroundColor: COLORS.secondaryBgColor,
+    borderColor: COLORS.secondaryBorder,
     borderWidth: 2,
     borderRadius: 8,
   },
   contentText: {
-    color: "#a9a4a0",
+    color: COLORS.secondary,
     fontSize: 30,
     textTransform: "capitalize",
     fontFamily: "Poppins-Medium",
@@ -97,18 +101,23 @@ const styles = StyleSheet.create({
   balance:{
     fontSize: 32,
     fontFamily: "SpaceGrotesk-Bold",
-    color: "#e6e5e3",
+    color: COLORS.primary,
     // marginTop: 8,
   },
   contentSubText: {
-    color: "#a9a4a0",
+    color: COLORS.secondary,
     fontSize: 16,
     textTransform: "capitalize",
     fontFamily: "Poppins-Medium",
   },
-  SubBalance: {
+    income: {
     fontSize: 24,
     fontFamily: "SpaceGrotesk-Medium",
-    color: "#e6e5e3",//red color
+    color: COLORS.green,
+  },
+  expenses: {
+    fontSize: 24,
+    fontFamily: "SpaceGrotesk-Medium",
+    color: COLORS.red,
   },
 });

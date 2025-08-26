@@ -50,13 +50,31 @@ const oceanTheme = {
   card: "#FFFFFF",
   shadow: "#000000",
 };
+const blackTheme = {
+  primary: "#e6e5e3",
+  secondary:"#a9a4a0",
+  background: "#0a0a0a",
+  border: "#2a2625",
+  secondaryBorder:"#26221f",
+  tertiaryBorder:"#1d1916",
+  secondaryBgColor:"#1d1916",
+  inputTextColor:"#bcbbbc",
+  white: "#FFFFFF",
+  red: "#EF5350",
+  green: "#26A69A",
+  card: "#1d1916",
+  shadow: "#000000",
+  backButton:"#292524",
+  inactiveButton:"#848484"
+};
 
 export const THEMES = {
   coffee: coffeeTheme,
   forest: forestTheme,
   purple: purpleTheme,
   ocean: oceanTheme,
+  blackTheme: blackTheme
 };
 
 // 👇 change this to switch theme
-export const COLORS = THEMES.coffee;
+export const COLORS = THEMES.blackTheme;

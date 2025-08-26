@@ -17,16 +17,26 @@ export const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 18,
-    fontWeight: "600",
-    color: COLORS.text,
+    fontFamily:"SpaceGrotesk-Medium",
+    color: COLORS.primary,
   },
   backButton: {
-    padding: 5,
+        padding: 8,
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    backgroundColor: COLORS.backButton,
   },
   saveButtonContainer: {
     flexDirection: "row",
     alignItems: "center",
     gap: 4,
+    paddingHorizontal: 18,
+    paddingVertical: 8,
+    borderRadius: 5,
+    backgroundColor: COLORS.green,
   },
   saveButtonDisabled: {
     opacity: 0.5,
@@ -34,10 +44,12 @@ export const styles = StyleSheet.create({
   saveButton: {
     fontSize: 16,
     color: COLORS.primary,
-    fontWeight: "600",
+    fontFamily:"Poppins-Medium"
   },
   card: {
     backgroundColor: COLORS.card,
+    borderColor: COLORS.border,
+    borderWidth:1,
     margin: 16,
     borderRadius: 16,
     padding: 16,
@@ -61,6 +73,7 @@ export const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 1,
     borderColor: COLORS.border,
+    // backgroundColor:COLORS.background
   },
   typeButtonActive: {
     backgroundColor: COLORS.primary,
@@ -70,12 +83,12 @@ export const styles = StyleSheet.create({
     marginRight: 8,
   },
   typeButtonText: {
-    color: COLORS.text,
+    color: COLORS.primary,
     fontSize: 16,
-    fontWeight: "500",
+    fontFamily:"Poppins-Medium"
   },
   typeButtonTextActive: {
-    color: COLORS.white,
+    color: COLORS.background,
   },
   amountContainer: {
     flexDirection: "row",
@@ -87,25 +100,27 @@ export const styles = StyleSheet.create({
   },
   currencySymbol: {
     fontSize: 32,
-    fontWeight: "bold",
-    color: COLORS.text,
+    color: COLORS.secondary,
     marginRight: 8,
+    fontFamily:"SpaceGrotesk-Medium"
   },
   amountInput: {
     flex: 1,
     fontSize: 36,
-    fontWeight: "bold",
-    color: COLORS.text,
+    color: COLORS.primary,
+    fontFamily:"SpaceGrotesk-Medium"
   },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    borderWidth: 1,
-    borderColor: COLORS.border,
+    borderBottomWidth: 1,
+    borderColor: COLORS.secondaryBorder,
     borderRadius: 12,
     padding: 4,
     marginBottom: 20,
-    backgroundColor: COLORS.white,
+    color: COLORS.primary,
+    fontFamily:"SpaceGrotesk-Medium",
+    backgroundColor:"transparent",
   },
   inputIcon: {
     marginHorizontal: 12,
@@ -114,12 +129,13 @@ export const styles = StyleSheet.create({
     flex: 1,
     padding: 12,
     fontSize: 16,
-    color: COLORS.text,
+    color: COLORS.primary,
+    fontFamily:"Poppins-Medium"
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: "600",
-    color: COLORS.text,
+    fontFamily:"Poppins-Medium",
+    color: COLORS.secondary,
     marginBottom: 15,
     marginTop: 10,
     flexDirection: "row",
@@ -138,21 +154,23 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1,
     borderColor: COLORS.border,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.background,
   },
   categoryButtonActive: {
     backgroundColor: COLORS.primary,
-    borderColor: COLORS.primary,
+    borderColor: COLORS.tertiaryBorder,
+    borderWidth: 1
   },
   categoryIcon: {
     marginRight: 6,
   },
   categoryButtonText: {
-    color: COLORS.text,
+    color: COLORS.primary,
     fontSize: 14,
+    fontFamily:"Poppins-Medium"
   },
   categoryButtonTextActive: {
-    color: COLORS.white,
+    color: COLORS.background,
   },
   loadingContainer: {
     padding: 20,

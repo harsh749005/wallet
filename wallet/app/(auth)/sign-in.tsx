@@ -3,6 +3,7 @@ import { Link, useRouter } from 'expo-router'
 import { ActivityIndicator, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import AntDesign from '@expo/vector-icons/AntDesign'
+import { COLORS } from '@/constants/colors'
 
 export default function Page() {
   const { signIn, setActive, isLoaded } = useSignIn()
@@ -77,7 +78,7 @@ export default function Page() {
                 <TextInput
                   style={styles.input}
                   placeholder="Email"
-                  placeholderTextColor="#bcbbbc"
+                  placeholderTextColor={COLORS.inputTextColor}
                   value={emailAddress}
                   onChangeText={(email) => setEmailAddress(email)}
                   keyboardType="email-address"
@@ -87,7 +88,7 @@ export default function Page() {
                 />
                 <TextInput
                   style={styles.input}
-                  placeholderTextColor="#bcbbbc"
+                  placeholderTextColor={COLORS.inputTextColor}
                   value={password}
                   placeholder="Password"
                   secureTextEntry={true}
@@ -96,9 +97,9 @@ export default function Page() {
               </View>
             </View>
             <View style={{ display: "flex", flexDirection: "row", gap: 3 }}>
-              <Text style={{ color: "#a9a4a0",fontSize: 12,fontFamily: "Poppins-Regular",}}>{"Don't have an account ?"}</Text>
+              <Text style={{ color: COLORS.secondary,fontSize: 12,fontFamily: "Poppins-Regular",}}>{"Don't have an account ?"}</Text>
               <Link href="/sign-up">
-                <Text style={{ color: "#ffffffff",fontSize: 12,fontFamily: "Poppins-Regular" }}>Sign Up</Text>
+                <Text style={{ color:COLORS.white,fontSize: 12,fontFamily: "Poppins-Regular" }}>Sign Up</Text>
               </Link>
             </View>
           </View>
@@ -111,8 +112,8 @@ export default function Page() {
           {
             backgroundColor:
               emailAddress.length !== 0 && password.length > 8
-                ? "#ffffffff"
-                : "#848484",
+                ? COLORS.white
+                : COLORS.inactiveButton,
           },
         ]}
         onPress={onSignInPress}
@@ -129,7 +130,7 @@ export default function Page() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0a0a0a",
+    backgroundColor: COLORS.background,
     // justifyContent:"space-between",
   },
   header: {
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 50,
-    backgroundColor: "#292524",
+    backgroundColor: COLORS.backButton,
   },
   content: {
     // flex: 1,
@@ -164,14 +165,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: "600",
-    color: "#e6e5e3",
+    color: COLORS.primary,
     lineHeight: 32,
     fontFamily: "SpaceGrotesk-Medium",
 
   },
   subtitle: {
     fontSize: 14,
-    color: "#a9a4a0",
+    color: COLORS.secondary,
     lineHeight: 24,
     fontFamily: "Poppins-Regular",
   },
@@ -183,7 +184,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    color: "#a9a4a0",
+    color: COLORS.secondary,
     fontWeight: "500",
   },
   input: {
@@ -193,14 +194,14 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 16,
     fontSize: 14,
-    color: "#bcbbbc",
+    color: COLORS.inputTextColor,
     // #F9FAFB
-    backgroundColor: "#1d1916",
+    backgroundColor: COLORS.secondaryBgColor,
     fontFamily: "Poppins-Regular"
   },
   continueButton: {
     height: 48,
-    backgroundColor: "#ffffffff",
+    backgroundColor: COLORS.white,
     borderRadius: 16,
     justifyContent: "center",
     alignItems: "center",
@@ -208,7 +209,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   continueButtonText: {
-    color: "#0a0a0a",
+    color: COLORS.background,
     fontSize: 18,
     fontFamily: "SpaceGrotesk-Medium",
   },

@@ -1,5 +1,6 @@
 import { useClerk } from '@clerk/clerk-expo'
 import * as Linking from 'expo-linking'
+import { COLORS } from '@/constants/colors'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 
 export const SignOutButton = () => {
@@ -25,7 +26,7 @@ export const SignOutButton = () => {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#ff3d00',
+    backgroundColor: COLORS.red,
     borderRadius: 5,
     padding: 12,
     alignItems: 'center',
