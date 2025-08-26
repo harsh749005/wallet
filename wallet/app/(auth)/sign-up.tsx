@@ -65,6 +65,7 @@ export default function SignUpScreen() {
       // and capture OTP code
       setTimeout(()=>{
         setLoading(false);
+        showToast("Verification code sent", "Please check your email" );
       }, 3000);
       setPendingVerification(true);
     } catch (err) {
@@ -77,22 +78,22 @@ export default function SignUpScreen() {
   // Handle submission of verification form
   const onVerifyPress = async () => {
     if (!isLoaded) return;
-
+    
+    setLoading(true);
     try {
       // Use the code the user provided to attempt verification
       const signUpAttempt = await signUp.attemptEmailAddressVerification({
         code,
       });
 
-      setLoading(true);
       // If verification was completed, set the session to active
       // and redirect the user
       if (signUpAttempt.status === "complete") {
         await setActive({ session: signUpAttempt.createdSessionId });
         setTimeout(() => {
-          router.replace("/");
           setLoading(false);
-        }, 3000);
+          router.replace("/");
+        }, 4000);
       } else {
         // If the status is not complete, check why. User may need to
         // complete further steps.
@@ -124,9 +125,12 @@ export default function SignUpScreen() {
             <View style={styles.formContainer}>
               {/* Heading */}
               <View style={styles.headingContainer}>
-                <Text style={styles.title}>Enter code</Text>
+                <Text style={styles.title}>Verification Code</Text>
                 <Text style={styles.subtitle}>
-                  We sent verification code to your email.
+                  The OTP code was sent to your email.
+                </Text>
+                <Text style={styles.subtitle}>
+                  Please enter the code:
                 </Text>
               </View>
 
@@ -136,7 +140,7 @@ export default function SignUpScreen() {
                   {/* <Text style={styles.label}>Email</Text> */}
                   <TextInput
                     style={styles.input}
-                    placeholder="code"
+                    placeholder="Enter your verification code"
                     placeholderTextColor="#bcbbbc"
                     value={code}
                     onChangeText={(code) => setCode(code)}
@@ -234,9 +238,9 @@ export default function SignUpScreen() {
               </View>
             </View>
             <View style={{ display: "flex", flexDirection: "row", gap: 3 }}>
-              <Text style={{ color: "#a9a4a0" }}>Already have an account?</Text>
+              <Text style={{ color: "#a9a4a0", fontSize: 12, fontFamily: "Poppins-Regular" }}>Already have an account?</Text>
               <Link href="/sign-in">
-                <Text style={{ color: "#ffffffff" }}>Sign in</Text>
+                <Text style={{ color: "#ffffffff", fontSize: 12, fontFamily: "Poppins-Regular" }}>Sign in</Text>
               </Link>
             </View>
           </View>
@@ -303,11 +307,13 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#e6e5e3",
     lineHeight: 32,
+    fontFamily: "SpaceGrotesk-Medium",
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 14,
     color: "#a9a4a0",
     lineHeight: 24,
+    fontFamily: "Poppins-Regular",
   },
   form: {
     gap: 24,
@@ -326,10 +332,11 @@ const styles = StyleSheet.create({
     borderColor: "#2a2625",
     borderRadius: 8,
     paddingHorizontal: 16,
-    fontSize: 16,
+    fontSize: 14,
     color: "#bcbbbc",
     // #F9FAFB
     backgroundColor: "#1d1916",
+    fontFamily: "Poppins-Regular"
   },
   continueButton: {
     height: 48,
@@ -343,6 +350,6 @@ const styles = StyleSheet.create({
   continueButtonText: {
     color: "#0a0a0a",
     fontSize: 18,
-    fontWeight: "600",
+    fontFamily: "SpaceGrotesk-Medium"
   },
 });

@@ -16,6 +16,7 @@ export default function Page() {
   const onSignInPress = async () => {
     if (!isLoaded) return
 
+    setLoading(true);
     // Start the sign-in process using the email and password provided
     try {
       const signInAttempt = await signIn.create({
@@ -27,11 +28,11 @@ export default function Page() {
       // and redirect the user
       if (signInAttempt.status === 'complete') {
         await setActive({ session: signInAttempt.createdSessionId })
-        setLoading(true);
         setTimeout(()=>{
-          router.replace('/')
           setLoading(false);
+          router.replace('/')
         },3000)
+      
       } else {
         // If the status isn't complete, check why. User might need to
         // complete further steps.
@@ -47,6 +48,7 @@ export default function Page() {
   return (
         <SafeAreaView style={styles.container}>
       {/* Header */}
+      
       <View style={{ flex: 1 }}>
         <View style={styles.header}>
           <TouchableOpacity
@@ -94,9 +96,9 @@ export default function Page() {
               </View>
             </View>
             <View style={{ display: "flex", flexDirection: "row", gap: 3 }}>
-              <Text style={{ color: "#a9a4a0" }}>create new account ,</Text>
+              <Text style={{ color: "#a9a4a0",fontSize: 12,fontFamily: "Poppins-Regular",}}>{"Don't have an account ?"}</Text>
               <Link href="/sign-up">
-                <Text style={{ color: "#ffffffff" }}>Sign Up</Text>
+                <Text style={{ color: "#ffffffff",fontSize: 12,fontFamily: "Poppins-Regular" }}>Sign Up</Text>
               </Link>
             </View>
           </View>
@@ -164,11 +166,14 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#e6e5e3",
     lineHeight: 32,
+    fontFamily: "SpaceGrotesk-Medium",
+
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 14,
     color: "#a9a4a0",
     lineHeight: 24,
+    fontFamily: "Poppins-Regular",
   },
   form: {
     gap: 24,
@@ -187,10 +192,11 @@ const styles = StyleSheet.create({
     borderColor: "#2a2625",
     borderRadius: 8,
     paddingHorizontal: 16,
-    fontSize: 16,
+    fontSize: 14,
     color: "#bcbbbc",
     // #F9FAFB
     backgroundColor: "#1d1916",
+    fontFamily: "Poppins-Regular"
   },
   continueButton: {
     height: 48,
@@ -204,6 +210,6 @@ const styles = StyleSheet.create({
   continueButtonText: {
     color: "#0a0a0a",
     fontSize: 18,
-    fontWeight: "600",
+    fontFamily: "SpaceGrotesk-Medium",
   },
 });
