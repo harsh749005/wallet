@@ -30,7 +30,7 @@ export async function createTransaction(req, res) {
       RETURNING *
     `;
 
-    console.log(transaction);
+    // console.log(transaction);
     res.status(201).json(transaction[0]);
   } catch (error) {
     console.log("Error creating the transaction", error);
