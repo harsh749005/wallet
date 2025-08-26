@@ -5,6 +5,7 @@ import { Slot,SplashScreen } from 'expo-router'
 import { StatusBar } from 'react-native'
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
+import PageLoader from '@/components/PageLoader'
 
 export default function RootLayout() {
     const [fontsLoaded] = useFonts({
@@ -26,7 +27,7 @@ export default function RootLayout() {
     }
   }, [fontsLoaded]);
 
-  if (!fontsLoaded) return null;
+  if (!fontsLoaded) return <PageLoader/>;
   return (
     <ClerkProvider tokenCache={tokenCache}>
       <StatusBar translucent barStyle="light-content" />

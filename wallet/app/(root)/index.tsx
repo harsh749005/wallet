@@ -1,32 +1,67 @@
-import { SignedIn, SignedOut, useUser } from "@clerk/clerk-expo";
-import {  SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { SignedIn, useUser } from "@clerk/clerk-expo";
+import {
+  FlatList,
+  RefreshControl,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { SignOutButton } from "@/components/sign-out";
-import Ionicons from '@expo/vector-icons/Ionicons';
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { useEffect, useState } from "react";
-import {useTransactions} from '@/hooks/useTransaction';
+import { useTransactions } from "@/hooks/useTransaction";
 import PageLoader from "@/components/PageLoader";
 import { router } from "expo-router";
 import { COLORS } from "@/constants/colors";
+import NoTransactionsFound from "@/components/NoTransactionsFound";
+import { TransactionItem } from "@/components/TransactionItem";
+import CustomAlert from "@/components/CustomModel";
 export default function Page() {
   const { user } = useUser();
-  const {transactions, summary, isLoading, loadData, deleteTransaction } =  useTransactions(user?.id);
+  const { transactions, summary, isLoading, loadData, deleteTransaction } =
+    useTransactions(user?.id);
   const [visible, setVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
 
-    useEffect(() => {
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await loadData();
+    setRefreshing(false);
+  };
+
+  useEffect(() => {
     loadData();
   }, [loadData]);
 
-  console.log("Transactions:", transactions);
-  console.log("Summary:", summary); 
   const toggleVisibility = () => {
     setVisible(!visible);
   };
-  if(isLoading) return <PageLoader/>
+  const handleDelete = (id: string) => {
+
+    setDeleteId(id);
+    setModalVisible(true);
+  };
+  if (isLoading && !refreshing) return <PageLoader />;
   return (
     <SafeAreaView style={styles.container}>
+      <CustomAlert
+        visible={modalVisible}
+        title="Delete Transaction"
+        message="Are you sure you want to delete this transaction?"
+        onClose={() => setModalVisible(false)}
+        onConfirm={() => {
+          if (deleteId) {
+            deleteTransaction(deleteId); // <-- delete logic
+          }
+          setModalVisible(false);
+        }}
+      />
       <View style={styles.header}>
         <SignedIn>
-          <View style={{backgroundColor: "#1d1916"}}>
+          <View style={{ backgroundColor: "#1d1916" }}>
             <Text style={styles.headerText}>Welcome,</Text>
             <Text style={styles.headerText}> {user?.username}</Text>
           </View>
@@ -34,28 +69,137 @@ export default function Page() {
         <SignOutButton />
       </View>
       <View style={styles.content}>
-        <Text style={styles.contentText}>Balance</Text>
-        <Text style={styles.balance} onPress={()=>router.push("/Create")}>Create</Text>
-        <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
-          <Text style={styles.balance}>{visible ? summary.balance : "$****.**"}</Text>
-          <Ionicons name={visible ? "eye" : "eye-off"} size={24} color="white" onPress={toggleVisibility} />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Text style={styles.contentText}>Balance</Text>
+          <Text
+            style={{ color: "white", fontFamily: "Poppins-SemiBold" }}
+            onPress={() => router.push("/Create")}
+          >
+            Add
+          </Text>
+          {/* <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center",gap:5}}> */}
+
+          {/* <AntDesign name="pluscircleo" size={20} color="white" /> */}
+          {/* </View> */}
         </View>
-        <View style={{flexDirection: "row", justifyContent: "space-between", marginTop: 16}}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Text style={styles.balance}>
+            {visible ? summary.balance : "$****.**"}
+          </Text>
+          <Ionicons
+            name={visible ? "eye" : "eye-off"}
+            size={24}
+            color="white"
+            onPress={toggleVisibility}
+          />
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginTop: 16,
+          }}
+        >
           <View>
             <Text style={styles.contentSubText}>Income</Text>
-            <Text style={styles.income}>{visible ? summary.income : "$****.**"}</Text>
+            <Text style={styles.income}>
+              {visible ? summary.income : "$****.**"}
+            </Text>
           </View>
           {/* straight line */}
-          <View style={{ flexDirection: "row", marginLeft: 8, flex: 1, height: 50, alignItems: "center", justifyContent: "flex-end", gap: 10 }}>
-
-          <View style={{ width: 2, height: 50, backgroundColor: COLORS.secondaryBorder, marginHorizontal: 8 }} />
-          <View >
-            <Text style={styles.contentSubText}>Expenses</Text>
-            <Text style={styles.expenses}>{visible ? summary.expenses : "$****.**"}</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              marginLeft: 8,
+              flex: 1,
+              height: 50,
+              alignItems: "center",
+              justifyContent: "flex-end",
+              gap: 10,
+            }}
+          >
+            <View
+              style={{
+                width: 2,
+                height: 50,
+                backgroundColor: COLORS.secondaryBorder,
+                marginHorizontal: 8,
+              }}
+            />
+            <View>
+              <Text style={styles.contentSubText}>Expenses</Text>
+              <Text style={styles.expenses}>
+                {visible ? summary.expenses : "$****.**"}
+              </Text>
+            </View>
           </View>
-          </View>
-          <View></View>
         </View>
+      </View>
+      <View style={{ marginTop: 16 }}>
+        <Text style={styles.contentSubText}>Recent Transactions</Text>
+      </View>
+      <View
+        style={{
+          flex: 1,
+          marginTop: 8,
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <View></View>
+        <FlatList
+          data={transactions}
+          renderItem={({ item }) => (
+            <TransactionItem item={item} onDelete={handleDelete} />
+          )}
+          ListEmptyComponent={<NoTransactionsFound />}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        />
+        {/* <Modal
+          transparent
+          visible={visible}
+          animationType="fade"
+          onRequestClose={() => setVisible(false)}
+        >
+          <View style={modalStyle.overlay}>
+            <View style={modalStyle.alertBox}>
+              <Text style={modalStyle.title}>Remove Partner</Text>
+              <Text style={modalStyle.message}>
+                Are you sure you want to remove Pranjal as partner? You can
+                always add them again.
+              </Text>
+
+              <TouchableOpacity
+                style={modalStyle.removeButton}
+                onPress={() => setVisible(false)}
+              >
+                <Text style={modalStyle.removeText}>Remove Partner</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={modalStyle.closeButton}
+                onPress={() => setVisible(false)}
+              >
+                <Text style={modalStyle.closeText}>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal> */}
       </View>
     </SafeAreaView>
   );
@@ -98,7 +242,7 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
     fontFamily: "Poppins-Medium",
   },
-  balance:{
+  balance: {
     fontSize: 32,
     fontFamily: "SpaceGrotesk-Bold",
     color: COLORS.primary,
@@ -110,7 +254,7 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
     fontFamily: "Poppins-Medium",
   },
-    income: {
+  income: {
     fontSize: 24,
     fontFamily: "SpaceGrotesk-Medium",
     color: COLORS.green,

@@ -4,9 +4,7 @@ import {
   Alert,
   TouchableOpacity,
   TextInput,
-  ActivityIndicatorBase,
   ActivityIndicator,
-  StyleSheet,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { useUser } from "@clerk/clerk-expo";
@@ -15,8 +13,15 @@ import { API_URL } from "../../constants/api";
 import { styles } from "../../assets/styles/create.styles";
 import { COLORS } from "../../constants/colors";
 import { Ionicons } from "@expo/vector-icons";
+import { useTransactions } from "@/hooks/useTransaction";
 
-const CATEGORIES = [
+type Category = {
+  id: string;
+  name: string;
+  icon: keyof typeof Ionicons.glyphMap;
+};
+
+const CATEGORIES: Category[] = [
   { id: "food", name: "Food & Drinks", icon: "fast-food" },
   { id: "shopping", name: "Shopping", icon: "cart" },
   { id: "transportation", name: "Transportation", icon: "car" },
@@ -29,6 +34,7 @@ const CATEGORIES = [
 const CreateScreen = () => {
   const router = useRouter();
   const { user } = useUser();
+  const { loadData } = useTransactions(user?.id);
 
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
@@ -38,13 +44,15 @@ const CreateScreen = () => {
 
   const handleCreate = async () => {
     // validations
-    if (!title.trim()) return Alert.alert("Error", "Please enter a transaction title");
+    if (!title.trim())
+      return Alert.alert("Error", "Please enter a transaction title");
     if (!amount || isNaN(parseFloat(amount)) || parseFloat(amount) <= 0) {
       Alert.alert("Error", "Please enter a valid amount");
       return;
     }
 
-    if (!selectedCategory) return Alert.alert("Error", "Please select a category");
+    if (!selectedCategory)
+      return Alert.alert("Error", "Please select a category");
 
     setIsLoading(true);
     try {
@@ -65,6 +73,7 @@ const CreateScreen = () => {
           category: selectedCategory,
         }),
       });
+      // console.log("Response:", response);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -73,9 +82,15 @@ const CreateScreen = () => {
       }
 
       Alert.alert("Success", "Transaction created successfully");
-      router.back();
+
+      console.log("Calling loadData after create...");
+      loadData();
+
+      setTimeout(() => {
+        router.back();
+      }, 3000);
     } catch (error) {
-      Alert.alert("Error", error?.message || "Failed to create transaction");
+      // Alert.alert("Error", error?.message || "Failed to create transaction");
       console.error("Error creating transaction:", error);
     } finally {
       setIsLoading(false);
@@ -86,16 +101,24 @@ const CreateScreen = () => {
     <View style={styles.container}>
       {/* HEADER */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => router.back()}
+        >
           <Ionicons name="arrow-back" size={24} color={COLORS.white} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>New Transaction</Text>
         <TouchableOpacity
-          style={[styles.saveButtonContainer, isLoading && styles.saveButtonDisabled]}
+          style={[
+            styles.saveButtonContainer,
+            isLoading && styles.saveButtonDisabled,
+          ]}
           onPress={handleCreate}
           disabled={isLoading}
         >
-          <Text style={styles.saveButton}>{isLoading ? "Saving..." : "Save"}</Text>
+          <Text style={styles.saveButton}>
+            {isLoading ? "Saving..." : "Save"}
+          </Text>
           {/* {!isLoading && <Ionicons name="checkmark" size={18} color={COLORS.primary} />} */}
         </TouchableOpacity>
       </View>
@@ -113,7 +136,12 @@ const CreateScreen = () => {
               color={isExpense ? COLORS.red : COLORS.backButton}
               style={styles.typeIcon}
             />
-            <Text style={[styles.typeButtonText, isExpense && styles.typeButtonTextActive]}>
+            <Text
+              style={[
+                styles.typeButtonText,
+                isExpense && styles.typeButtonTextActive,
+              ]}
+            >
               Expense
             </Text>
           </TouchableOpacity>
@@ -129,7 +157,12 @@ const CreateScreen = () => {
               color={!isExpense ? COLORS.green : COLORS.backButton}
               style={styles.typeIcon}
             />
-            <Text style={[styles.typeButtonText, !isExpense && styles.typeButtonTextActive]}>
+            <Text
+              style={[
+                styles.typeButtonText,
+                !isExpense && styles.typeButtonTextActive,
+              ]}
+            >
               Income
             </Text>
           </TouchableOpacity>
@@ -167,7 +200,12 @@ const CreateScreen = () => {
 
         {/* TITLE */}
         <Text style={styles.sectionTitle}>
-          <Ionicons name="pricetag-outline" size={16} color={COLORS.secondary} /> Category
+          <Ionicons
+            name="pricetag-outline"
+            size={16}
+            color={COLORS.secondary}
+          />{" "}
+          Category
         </Text>
 
         <View style={styles.categoryGrid}>
@@ -176,20 +214,26 @@ const CreateScreen = () => {
               key={category.id}
               style={[
                 styles.categoryButton,
-                selectedCategory === category.name && styles.categoryButtonActive,
+                selectedCategory === category.name &&
+                  styles.categoryButtonActive,
               ]}
               onPress={() => setSelectedCategory(category.name)}
             >
               <Ionicons
                 name={category.icon}
                 size={20}
-                color={selectedCategory === category.name ? COLORS.background : COLORS.primary}
+                color={
+                  selectedCategory === category.name
+                    ? COLORS.background
+                    : COLORS.primary
+                }
                 style={styles.categoryIcon}
               />
               <Text
                 style={[
                   styles.categoryButtonText,
-                  selectedCategory === category.name && styles.categoryButtonTextActive,
+                  selectedCategory === category.name &&
+                    styles.categoryButtonTextActive,
                 ]}
               >
                 {category.name}
@@ -208,15 +252,3 @@ const CreateScreen = () => {
   );
 };
 export default CreateScreen;
-
-// const styles = StyleSheet.create({
-//     backButton: {
-//     padding: 8,
-//     width: 40,
-//     height: 40,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     borderRadius: 50,
-//     backgroundColor: COLORS.backButton,
-//   },
-// })

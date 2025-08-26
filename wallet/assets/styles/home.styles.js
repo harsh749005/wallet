@@ -133,6 +133,8 @@ export const styles = StyleSheet.create({
   },
   transactionCard: {
     backgroundColor: COLORS.card,
+    borderColor: COLORS.border,
+    borderWidth: 1,
     borderRadius: 12,
     marginBottom: 10,
     flexDirection: "row",
@@ -167,24 +169,25 @@ export const styles = StyleSheet.create({
   transactionTitle: {
     fontSize: 16,
     fontWeight: "500",
-    color: COLORS.text,
+    color: COLORS.primary,
     marginBottom: 4,
   },
   transactionCategory: {
     fontSize: 14,
-    color: COLORS.textLight,
+    color: COLORS.secondary,
   },
   transactionRight: {
     alignItems: "flex-end",
   },
   transactionAmount: {
     fontSize: 16,
-    fontWeight: "600",
+    fontFamily:"SpaceGrotesk-Medium",
     marginBottom: 4,
   },
   transactionDate: {
     fontSize: 12,
-    color: COLORS.textLight,
+    fontFamily:"SpaceGrotesk-Medium",
+    color: COLORS.secondary,
   },
   deleteButton: {
     padding: 15,
