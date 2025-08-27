@@ -88,7 +88,7 @@ const CreateScreen = () => {
 
       setTimeout(() => {
         router.back();
-      }, 3000);
+      }, 1000);
     } catch (error) {
       // Alert.alert("Error", error?.message || "Failed to create transaction");
       console.error("Error creating transaction:", error);

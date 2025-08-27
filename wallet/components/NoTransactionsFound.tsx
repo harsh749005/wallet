@@ -20,7 +20,7 @@ const NoTransactionsFound = () => {
         Start tracking your finances by adding your first transaction
       </Text>
       <TouchableOpacity style={styles.emptyStateButton} onPress={() => router.push("/Create")}>
-        <Ionicons name="add-circle" size={18} color={COLORS.white} />
+        <Ionicons name="add-circle" size={18} color={COLORS.background} />
         <Text style={styles.emptyStateButtonText}>Add Transaction</Text>
       </TouchableOpacity>
     </View>

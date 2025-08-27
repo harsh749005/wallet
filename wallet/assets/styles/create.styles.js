@@ -16,12 +16,12 @@ export const styles = StyleSheet.create({
     borderBottomColor: COLORS.border,
   },
   headerTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily:"SpaceGrotesk-Medium",
     color: COLORS.primary,
   },
   backButton: {
-        padding: 8,
+    padding: 8,
     width: 40,
     height: 40,
     justifyContent: "center",
@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
     opacity: 0.5,
   },
   saveButton: {
-    fontSize: 16,
+    fontSize: 14,
     color: COLORS.primary,
     fontFamily:"Poppins-Medium"
   },
@@ -84,7 +84,7 @@ export const styles = StyleSheet.create({
   },
   typeButtonText: {
     color: COLORS.primary,
-    fontSize: 16,
+    fontSize: 12,
     fontFamily:"Poppins-Medium"
   },
   typeButtonTextActive: {
@@ -99,14 +99,14 @@ export const styles = StyleSheet.create({
     marginBottom: 20,
   },
   currencySymbol: {
-    fontSize: 32,
+    fontSize: 30,
     color: COLORS.secondary,
     marginRight: 8,
     fontFamily:"SpaceGrotesk-Medium"
   },
   amountInput: {
     flex: 1,
-    fontSize: 36,
+    fontSize: 30,
     color: COLORS.primary,
     fontFamily:"SpaceGrotesk-Medium"
   },
@@ -128,12 +128,12 @@ export const styles = StyleSheet.create({
   input: {
     flex: 1,
     padding: 12,
-    fontSize: 16,
+    fontSize: 14,
     color: COLORS.primary,
     fontFamily:"Poppins-Medium"
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 14,
     fontFamily:"Poppins-Medium",
     color: COLORS.secondary,
     marginBottom: 15,
@@ -166,7 +166,7 @@ export const styles = StyleSheet.create({
   },
   categoryButtonText: {
     color: COLORS.primary,
-    fontSize: 14,
+    fontSize: 12,
     fontFamily:"Poppins-Medium"
   },
   categoryButtonTextActive: {

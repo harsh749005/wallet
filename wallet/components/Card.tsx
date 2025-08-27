@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useEffect } from "react";
+import  { useEffect, useState } from "react";
 import { COLORS } from "@/constants/colors";
 import { router } from "expo-router";
 import { useTransactions } from "@/hooks/useTransaction";
@@ -9,7 +9,7 @@ import { useUser } from "@clerk/clerk-expo";
 const Card = () => {
   const { user } = useUser();
   const { summary, loadData } = useTransactions(user?.id);
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = useState(false);
   useEffect(() => {
     loadData();
   }, [loadData]);

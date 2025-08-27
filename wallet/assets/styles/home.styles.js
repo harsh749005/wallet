@@ -205,6 +205,8 @@ export const styles = StyleSheet.create({
   },
   emptyState: {
     backgroundColor: COLORS.card,
+    borderColor: COLORS.border,
+    borderWidth: 1,
     borderRadius: 16,
     padding: 30,
     alignItems: "center",
@@ -218,16 +220,18 @@ export const styles = StyleSheet.create({
   },
   emptyStateIcon: {
     marginBottom: 16,
+    color: COLORS.primary,
   },
   emptyStateTitle: {
     fontSize: 18,
-    fontWeight: "600",
-    color: COLORS.text,
+    fontFamily:"Poppins-Medium",
+    color: COLORS.primary,
     marginBottom: 8,
   },
   emptyStateText: {
-    color: COLORS.textLight,
-    fontSize: 14,
+    fontFamily:"Poppins-Regular",
+    color: COLORS.secondary,
+    fontSize: 12,
     textAlign: "center",
     marginBottom: 20,
     lineHeight: 20,
@@ -246,8 +250,9 @@ export const styles = StyleSheet.create({
     elevation: 2,
   },
   emptyStateButtonText: {
-    color: COLORS.white,
-    fontWeight: "600",
+    color: COLORS.background,
+    fontFamily:"Poppins-Medium",
+    fontSize: 10,
     marginLeft: 6,
   },
   transactionsHeaderContainer: {
