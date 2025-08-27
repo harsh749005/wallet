@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { Alert } from "react-native";
+
 // import { API_URL } from "../constants/api";
 
 const API_URL = "https://wallet-lcht.onrender.com/api";
@@ -56,9 +57,10 @@ export const useTransactions = (userId) => {
       const response = await fetch(`${API_URL}/transactions/${id}`, { method: "DELETE" });
       if (!response.ok) throw new Error("Failed to delete transaction");
 
+      Alert.alert("Success","Transaction deleted successfully");
       // Refresh data after deletion
       loadData();
-      Alert.alert("Success", "Transaction deleted successfully");
+
     } catch (error) {
       console.error("Error deleting transaction:", error);
       Alert.alert("Error", error.message);
