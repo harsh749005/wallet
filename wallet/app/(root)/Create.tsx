@@ -14,6 +14,7 @@ import { styles } from "../../assets/styles/create.styles";
 import { COLORS } from "../../constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useTransactions } from "@/hooks/useTransaction";
+import Toast from "@/components/Toast";
 
 type Category = {
   id: string;
@@ -41,6 +42,7 @@ const CreateScreen = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isExpense, setIsExpense] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
   const handleCreate = async () => {
     // validations
@@ -81,9 +83,7 @@ const CreateScreen = () => {
         throw new Error(errorData.error || "Failed to create transaction");
       }
 
-      Alert.alert("Success", "Transaction created successfully");
-
-      console.log("Calling loadData after create...");
+      // Alert.alert("Success", "Transaction created successfully");
       loadData();
 
       setTimeout(() => {
@@ -98,8 +98,14 @@ const CreateScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,{position: 'relative'}]}>
       {/* HEADER */}
+      <Toast
+        visible={showToast}
+        message="Transaction successful"
+        onHide={() => setShowToast(false)}
+        duration={2000}
+    />
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
@@ -113,7 +119,7 @@ const CreateScreen = () => {
             styles.saveButtonContainer,
             isLoading && styles.saveButtonDisabled,
           ]}
-          onPress={handleCreate}
+          onPress={() => {handleCreate();setShowToast(true);}}
           disabled={isLoading}
         >
           <Text style={styles.saveButton}>
